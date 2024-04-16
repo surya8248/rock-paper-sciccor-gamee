@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body{
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: black;
+      }
+
+      .game-title {
+        color: yellow;
+        font-size: xx-large;
+      }
+
+      .moves-block {
+        margin-right: 15px;
+      }
+
+      .move-icons {
+        height: 60px;
+        padding: 25px 25px;
+        border-radius: 30px;
+        border: none;
+        align-items: center;
+        
+        
+      }
+
+      .moves-comparison {
+        color: white;
+        font-size: 25px;
+      }
+
+      .display-result {
+        color: rgb(255, 0, 0);
+        font-size: 30px;
+      }
+
+      .reset-button{
+        color: yellow;
+        background-color: rgb(62, 59, 59);
+        border: none;
+        padding: 15px;
+        font-size: larger;
+      }
+
+      
+    </style>
+  </head>
+  <body>
+    <p class="game-title">
+      Rock paper sciccor Game
+    </p>
+    <p class="moves-block">
+      <button onclick="
+      oppoentmove('rock');
+      compare('rock');
+      "> <img src="rock icon.png" class="move-icons">
+      
+    </button>
+    <button onclick="
+     oppoentmove('paper');
+     compare('paper');
+    "> <img src="paper icon.png" class="move-icons" alt="">
+      
+    </button>
+    <button onclick="
+     oppoentmove('sciccor');
+     compare('sciccor');
+    "> <img src="sciccor icon.jpeg" class="move-icons" alt="">
+      
+    </button>
+    </p>
+
+    <p class="js-moves-comparison moves-comparison">
+      your move: computer move:
+    </p>
+
+    <p class="js-display-result display-result">
+      Win: lose: tie:
+    </p>
+   
+    <button onclick="
+     score = {
+      wins:0,
+      loses:0,
+      tie:0
+     }
+
+     document.querySelector('.js-display-result')
+       .innerHTML= `Wins:0 loses:0 tie:0`;
+
+     console.log(score);
+    " class="js-reset-button reset-button">
+      Reset score
+    </button>
+
+
+    <script>
+      
+      let computermove = '';
+      function oppoentmove () {
+        const randomNumber = Math.random();
+      if (randomNumber>0 && randomNumber < 1/3) {
+        computermove='rock';
+      } else if (randomNumber> 1/3 && randomNumber <2/3) {
+        computermove='paper';
+      } else if (randomNumber > 2/3 && randomNumber < 1) {
+        computermove='sciccor';
+      }
+      
+
+
+      
+     
+    } 
+
+    let  score = JSON.parse(localStorage.getItem('score')) || {
+      wins:0,
+      loses:0,
+      tie:0
+    }  
+    
+
+    let result = '';
+    function compare (yourmove) {
+      if (yourmove==='rock') {
+        if (computermove==='rock') {
+          result = score.tie++
+          
+        } else if (computermove === 'paper') {
+          result = score.loses++
+        
+      } else if (computermove === 'sciccor') {
+         result = score.wins++
+        
+      }
+        displayResultComparison('rock');
+      } 
+
+      if (yourmove==='paper') {
+        if (computermove==='rock') {
+          result = score.wins++
+          
+        } else if (computermove === 'paper') {
+          result = score.tie++
+        
+      } else if (computermove === 'sciccor') {
+         result = score.loses++
+        
+      }
+      displayResultComparison('paper')
+        
+      } 
+
+      if (yourmove==='sciccor') {
+        if (computermove==='rock') {
+          result = score.loses++
+          
+        } else if (computermove === 'paper') {
+          result = score.wins++
+        
+      } else if (computermove === 'sciccor') {
+          result = score.tie++
+        
+      }
+
+      displayResultComparison('sciccor');
+        
+      } 
+
+      
+
+      console.log(document.querySelector('.js-display-result')
+       .innerHTML= `Wins:${score.wins} loses:${score.loses} tie:${score.tie}`);
+        
+     
+       localStorage.setItem('score',JSON.stringify(score))
+
+      
+      console.log(score);
+    
+    
+    }
+
+    function displayResultComparison (yourmove) {
+      document.querySelector('.js-moves-comparison')
+        .innerHTML= `your move:${yourmove}  computer move:${computermove}`;
+    }
+    
+    
+   
+    
+  
+
+    
+    
+    </script>
+  </body>
+</html>
